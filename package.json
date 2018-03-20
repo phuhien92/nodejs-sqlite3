@@ -1,0 +1,23 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "SQLITE3 and EXPRESS NODEJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Hien Luong",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.3",
+    "knex": "^0.14.4",
+    "log4js": "^2.5.3",
+    "nodemon": "^1.17.2",
+    "sequelize": "^4.37.2",
+    "sqlite3": "^4.0.0",
+    "webpack": "^4.1.1"
+  }
+}
