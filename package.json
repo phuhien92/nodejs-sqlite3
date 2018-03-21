@@ -19,13 +19,9 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "knex": "^0.14.4",
-    "log4js": "^2.5.3",
-    "morgan": "^1.9.0",
     "nodemon": "^1.17.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^4.37.2",
-    "sqlite3": "^4.0.0",
-    "webpack": "^4.1.1"
+    "sqlite3": "^4.0.0"
   }
 }
