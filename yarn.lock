@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"7@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/7/-/7-0.0.1.tgz#9e968e3c6900212bd58d6f8e5b7d0ffc0bb28f4c"
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

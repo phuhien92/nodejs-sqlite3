@@ -59,15 +59,17 @@ module.exports = function(passport) {
         }, (req,username, password, done) => {
             knex('user').where({username}).first()
                 .then((user) => {
-                    console.log(user)
-                    if (!user) return done(null, false);
+                    console.log("Looking for :",user)
+                    if (!user) return done(null, false, req.flash('loginMessage', 'Wrong username or password!'));
                     const { hash } = saltHashPassword({
                         password,
                         salt: user.salt
                     })
-                    console.log(hash === user.encrypted_password)
+                    
+                    console.log("Login success: ", hash === user.encrypted_password);
+
                     if (hash === user.encrypted_password) return done(null, user)
-                    else return done(null, false, req.flash('loginMessage', '!Wrong password'));
+                    else return done(null, false, req.flash('loginMessage', 'Wrong password!'));
                 })
                 .catch((err) => { return done(err)})
         })

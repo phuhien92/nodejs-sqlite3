@@ -2,6 +2,8 @@ const express = require('express');
 
 const store   = require('./store');
 
+const env     = process.env.NODE_ENV || "development";
+
 // passport 
 const passport = require('passport');
 const flash    = require('connect-flash');
@@ -19,10 +21,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-	secret: 'vidyapathaisalwaysrunning',
+	secret: 'youarealwaysrunning',
 	resave: true,
 	saveUninitialized: true
  } )); // session secret
+ 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash()); // use connect-flash for flash messages stored in session

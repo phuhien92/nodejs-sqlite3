@@ -2,26 +2,24 @@
 <!doctype html>
 <html>
 <head>
-	<title><%= title %></title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-	<style>
-		body 		{ padding-top:80px; }
-	</style>
+    <% include ../partials/head %>
+    <title><%= title %></title>
 </head>
-<body>
+<body> 
+    <% include ../partials/header %>
     <div class="container">
         <div class="jumbotron text-center">
-            <h1><span class="fa fa-lock"></span> Node Authentication</h1>
+            <h1><span class="fa fa-lock"></span> <%= title %></h1>
 
-            <p>Login or Register with:</p>
+            <p>Login or Register here:</p>
             <% if (isLoggedIn) { %>
-                <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
+                <a href="/logout" class="btn btn-secondary"><span class="fa fa-user"></span> Logout</a>
             <% } else { %>
-            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+            <a href="/login" class="btn btn-primary"><span class="fa fa-user"></span> Local Login</a>
             <% } %>
-            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+            <a href="/signup" class="btn btn-info"><span class="fa fa-user"></span> Local Signup</a>
         </div>
     </div>
+    <% include ../partials/footer %>
 </body>
 </html>

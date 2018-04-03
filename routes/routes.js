@@ -7,8 +7,12 @@ module.exports = function(app, passport) {
         })
     })
 
+    // login page
     app.get('/login', (req, res) => {
-        res.render('pages/login', { message: req.flash('loginMessage')})
+        res.render('pages/login', { 
+            message: req.flash('loginMessage'),
+            title: "LOGIN"
+        })
     });
 
     app.post('/login', passport.authenticate('local-login', {
@@ -16,7 +20,7 @@ module.exports = function(app, passport) {
         failureRedirect: '/login',
         failureFlash: true // allow flash message
     }), (req,res) => {
-        console.log('hello login');
+        console.log('logging in :', req);
 
         if (req.body.remember) {
             req.session.cookie.maxAge = 100 * 60 * 3;
@@ -27,8 +31,12 @@ module.exports = function(app, passport) {
         res.redirect('/');
     })
 
+    // signup page
     app.get('/signup', (req,res) => {
-        res.render('pages/signup', {message: req.flash('signupMessage')})
+        res.render('pages/signup', {
+            message: req.flash('signupMessage'),
+            title: "SIGNUP"
+        })
     })
     app.post('/signup', (req,res) => {
         store
@@ -39,6 +47,7 @@ module.exports = function(app, passport) {
             .then(() => res.sendStatus(200))
     });
 
+    // logout action
     app.get('/logout', function(req, res){
         req.logout();
         res.redirect('/');
