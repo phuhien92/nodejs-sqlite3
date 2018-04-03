@@ -12,15 +12,19 @@
 <body>
     <div class="container">
         <div class="jumbotron text-center">
-            <h1><span class="fa fa-lock"></span> Node Authentication</h1>
-
-            <p>Login or Register with:</p>
-            <% if (isLoggedIn) { %>
-                <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
-            <% } else { %>
-            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-            <% } %>
-            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+			<h1><span class="fa fa-lock"></span> <%= title %> </h1>
+			<ul>
+				<% if (!students) { %>
+					<li class="text-left">No students</li>
+				<% } else { %>
+					<li class="text-left">Total: <%= students.length %></li>
+					<ul>
+						<% for(var i=0; i < students.length; i++) {%>
+						<li class="text-left"><%= students[i].id %>. <%= students[i].firstname %> <%= students[i].lastname %></li>
+						<% } %>
+					</ul>
+				<% } %>
+			</ul>
         </div>
     </div>
 </body>

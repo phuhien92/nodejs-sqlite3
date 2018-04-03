@@ -1,12 +1,6 @@
 const express = require('express');
 
 const store   = require('./store');
-
-// passport 
-const passport = require('passport');
-const flash    = require('connect-flash');
-const session  = require('express-session');
-
 // middleware to handle HTTP POST request
 // extract the entire body portion of an incoming request and exposes it on req.body
 const bodyParser = require('body-parser');
@@ -18,19 +12,19 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({
-	secret: 'vidyapathaisalwaysrunning',
-	resave: true,
-	saveUninitialized: true
- } )); // session secret
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.get('/', (req,res) => {
+	let students = [];
+	
+	store.studentList().then((req,respond) => {
+		students = req;
 
-// pass passport for configuration
-require('./config/passport')(passport); 
-// routes
-require('./routes/routes.js')(app, passport);
+		res.render('pages/index', {
+			title: 'NODEJS - SQLITE DEMO',
+			students:students
+		})
+	})
+
+})
 
 app.listen(app.get('port'), () => {
     console.log("Listening to port: ", app.get("port"))
