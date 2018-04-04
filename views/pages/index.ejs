@@ -8,7 +8,7 @@
 <body> 
     <% include ../partials/header %>
     <div class="container">
-        <div class="jumbotron text-center">
+        <div class="jumbotron text-center col-12">
             <h1><span class="fa fa-lock"></span> <%= title %></h1>
 
             <p>Login or Register here:</p>
@@ -18,6 +18,31 @@
             <a href="/login" class="btn btn-primary"><span class="fa fa-user"></span> Local Login</a>
             <% } %>
             <a href="/signup" class="btn btn-info"><span class="fa fa-user"></span> Local Signup</a>
+        </div>
+
+        <div class="row">
+            <% if (!products) { %>
+                <p class="text-left">No product found</p>
+            <% } else { %>
+                <p class="text-left col-12">Total: <%= products.length %></p>
+            
+                <% for(var i=0; i < products.length; i++) {%>
+                <div class="col-3">
+                    <img src="<%= products[i].full_image %>" alt="<%= products[i].description%>" class="img-thumbnail rounded">
+                    <br></br>
+                    <div>
+                        <h5><%= products[i].name %></h5>
+                        <div>
+                            Stock: <%= products[i].stock %>
+                        </div>
+                        <div>
+                            Price: $<%= products[i].price %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                </div>
+            <% } %>
         </div>
     </div>
     <% include ../partials/footer %>

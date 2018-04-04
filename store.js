@@ -31,6 +31,14 @@ module.exports = {
                 })
                 return { success: hash === user.encrypted_password}
             })
+    },
+
+    /*
+    listing products
+    */
+    getProducts() {
+        console.log("fetching products");
+        return knex('products').select('*').orderBy('updated_at','desc').limit(10);
     }
 }
 

@@ -1,10 +1,17 @@
+const store = require('./../store');
+
 module.exports = function(app, passport) {
     // index page
     app.get('/', (req,res) => {
-        res.render('pages/index', {
-            title: 'NODEJS - SQLITE DEMO',
-            isLoggedIn: req.isAuthenticated()
+        store.getProducts()
+        .then((request,respond) => {
+            res.render('pages/index', {
+                title: 'NODEJS - SQLITE DEMO',
+                isLoggedIn: req.isAuthenticated(),
+                products: request
+            })
         })
+
     })
 
     // login page
