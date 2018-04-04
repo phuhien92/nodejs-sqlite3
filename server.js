@@ -12,6 +12,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// default page
 app.get('/', (req,res) => {
 	let students = [];
 	
