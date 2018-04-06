@@ -23,7 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
 	secret: 'youarealwaysrunning',
 	resave: true,
-	saveUninitialized: true
+	saveUninitialized: true,
+	cookie: {maxAge: 60000000}
  } )); // session secret
  
 app.use(passport.initialize());

@@ -39,7 +39,9 @@ module.exports = {
     getProducts() {
         console.log("fetching products");
         return knex('products').select('*').orderBy('updated_at','desc').limit(10);
-    }
+    },
+
+    /* book a product */
 }
 
 function saltHashPassword({

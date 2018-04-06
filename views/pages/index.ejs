@@ -20,6 +20,7 @@
             <a href="/signup" class="btn btn-info"><span class="fa fa-user"></span> Local Signup</a>
         </div>
 
+        <% if (isLoggedIn) { %>
         <div class="row">
             <% if (!products) { %>
                 <p class="text-left">No product found</p>
@@ -39,11 +40,20 @@
                             Price: $<%= products[i].price %>
                         </div>
                     </div>
+                    <br></br>
+                    <div>
+                        <form action="/book" method="post">
+                            <input type="hidden" value="<%= products[i].id %>" name="product">
+                            <input type="submit" class="add-to-cart btn btn-primary" value="Book Now!!"/>
+                        </form>
+                        
+                    </div>
                 </div>
                 <% } %>
                 </div>
             <% } %>
         </div>
+        <% } %>
     </div>
     <% include ../partials/footer %>
 </body>

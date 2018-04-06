@@ -16,12 +16,12 @@ module.exports = function(passport) {
     // required for persistent login sessions
     // passport needs ability to serialize and unserialize users out of session
     passport.serializeUser((user, done) => {
-        done(null, user.id)
+        done(null, user)
     });
 
     // used to deserialize the user
-    passport.deserializeUser((id, done) => {
-        knex('user').where({id}).first()
+    passport.deserializeUser((user, done) => {
+        knex('user').where('id', user.id).first()
             .then( (user) => { done(null, user) })
             .catch((err) => { done(err, null) })
     })
@@ -31,21 +31,36 @@ module.exports = function(passport) {
         'local-signup',
         new LocalStrategy({
             usernameField: 'username',
-            passwordField: 'passport',
+            passwordField: 'password',
             passReqToCallback: true
         }, (req, username, password, done) => {
-            console.log(`Add user ${username} `);
+            console.log(`Add user ${username}`);
             const {salt, hash} = saltHashPassword({password});
 
-            return knex('user').insert({
-                salt,
-                encrypted_password: hash, 
-                username
+            return knex('user').select().where('username',username)
+            .then((rows) => {
+                console.log(`local-signup: rows: ${rows}, length: ${rows.length}`);
+                if (rows.length === 0) {
+                    return  knex('user').insert({
+                                salt,
+                                encrypted_password: hash, 
+                                username
+                            })
+                            .then((userid) => {
+                                console.log(`${userid} is created`)
+                                done(null, true, req.flash('signupMessage', 'signup success'))
+                            })
+                            .catch((err) => {
+                                console.log(`insert user error: ${error}`)  
+                                done(err, false, req.flash('signupMessage', 'Fail to signup new user'))
+                            })
+
+                } else {
+                    return done(null, false, req.flash('signupMessage', 'this username already exists'))
+                }
             })
-            .then((user) => {
-                return done(null, false, req.flash('signupMessage', 'that username is already taken'))
-            })
-            .catch((err) => done(err))
+            .catch((err) => done(err, false, req.flash('signupMessage', 'Fail to signup new user')))
+
         })
     )
 

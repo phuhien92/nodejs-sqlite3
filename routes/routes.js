@@ -30,12 +30,10 @@ module.exports = function(app, passport) {
         console.log('logging in :', req);
 
         if (req.body.remember) {
-            req.session.cookie.maxAge = 100 * 60 * 3;
+            req.session.cookie.maxAge = 100 * 60000 * 3;
         } else {
             req.session.cookie.expires = false;
         }
-
-        res.redirect('/');
     })
 
     // signup page
@@ -45,13 +43,16 @@ module.exports = function(app, passport) {
             title: "SIGNUP"
         })
     })
-    app.post('/signup', (req,res) => {
+    app.post('/signup',passport.authenticate('local-signup', {
+        successRedirect: '/',
+        failureRedirect: '/signup',
+        failureFlash: true // allow flash message
+    }), (req,res) => {
         store
-            .createUser({
-                username: req.body.username,
-                password: req.body.password 
-            })
-            .then(() => res.sendStatus(200))
+        .createUser({
+            username: req.body.username,
+            password: req.body.password 
+        })
     });
 
     // logout action
@@ -59,6 +60,14 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+    // book a product
+    app.post('/book', (req,res) => {
+        console.log("booked product: ", req.body.product);
+        let backURL = req.header('Referer') || '/';
+
+        res.redirect('/')
+    })
 }
 
 // route middleware
