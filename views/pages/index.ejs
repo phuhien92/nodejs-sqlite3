@@ -6,56 +6,58 @@
     <title><%= title %></title>
 </head>
 <body> 
-    <% include ../partials/header %>
-    <div class="container">
-        <div class="jumbotron text-center col-12">
-            <h1><span class="fa fa-lock"></span> <%= title %></h1>
+    <div class="mdl-layout mdl-js-layout">
+        <%- include("../partials/header") %>
 
-            <p>Login or Register here:</p>
+        <main class="mdl-layout__content">
+            <div class="mdl-grid container">
+                <div class="mdl-cell mdl-cell--7-col">
+                    <h2>Scheduly helps you schedule meetings without the back-and-forth emails</h2>
+                    <p><i class="fas fa-star"></i>    &nbsp;Get started for free and always free</p>
+                    <a href="/signup" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Get Start</a>
+                </div>
+                <div class="mdl-cell mdl-cell--5-col">
+                    <img src="https://assets.calendly.com/assets/landing/homepage/hero-829da70d61c3fc165d69de57bdda58ae45b46fd5436ff022e34ffede540b9404.jpg" max-width="100%">
+                </div>
+            </div>
+            <!--
             <% if (isLoggedIn) { %>
-                <a href="/logout" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> &nbsp;Logout</a>
-                <a href="/dashboard" class="btn btn-info"><i class="fas fa-user-circle"></i>&nbsp;My Account</a>
+            <div class="row">
+                <% if (!products) { %>
+                    <p class="text-left">No product found</p>
                 <% } else { %>
-            <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in"></i> &nbsp;Local Login</a>
-            <a href="/signup" class="btn btn-info"><i class="fas fa-user-plus"></i> &nbsp;Local Signup</a>
-            <% } %>
-        </div>
-
-        <% if (isLoggedIn) { %>
-        <div class="row">
-            <% if (!products) { %>
-                <p class="text-left">No product found</p>
-            <% } else { %>
-                <p class="text-left col-12">Total: <%= products.length %></p>
-            
-                <% for(var i=0; i < products.length; i++) {%>
-                <div class="col-3">
-                    <img src="<%= products[i].full_image %>" alt="<%= products[i].description%>" class="img-thumbnail rounded">
-                    <br></br>
-                    <div>
-                        <h5><%= products[i].name %></h5>
+                    <p class="text-left col-12">Total: <%= products.length %></p>
+                
+                    <% for(var i=0; i < products.length; i++) {%>
+                    <div class="col-3">
+                        <img src="<%= products[i].full_image %>" alt="<%= products[i].description%>" class="img-thumbnail rounded">
+                        <br></br>
                         <div>
-                            Stock: <%= products[i].stock %>
+                            <h5><%= products[i].name %></h5>
+                            <div>
+                                Stock: <%= products[i].stock %>
+                            </div>
+                            <div>
+                                Price: $<%= products[i].price %>
+                            </div>
                         </div>
+                        <br></br>
                         <div>
-                            Price: $<%= products[i].price %>
+                            <form action="/book" method="post">
+                                <input type="hidden" value="<%= products[i].id %>" name="product">
+                                <input type="submit" class="add-to-cart btn btn-primary" value="Book Now!!"/>
+                            </form>
+                            
                         </div>
                     </div>
-                    <br></br>
-                    <div>
-                        <form action="/book" method="post">
-                            <input type="hidden" value="<%= products[i].id %>" name="product">
-                            <input type="submit" class="add-to-cart btn btn-primary" value="Book Now!!"/>
-                        </form>
-                        
+                    <% } %>
                     </div>
-                </div>
                 <% } %>
-                </div>
+            </main>
             <% } %>
-        </div>
-        <% } %>
+            -->
+        </main>
+        <% include ../partials/footer %>
     </div>
-    <% include ../partials/footer %>
 </body>
 </html>
