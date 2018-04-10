@@ -13,11 +13,12 @@
 
             <p>Login or Register here:</p>
             <% if (isLoggedIn) { %>
-                <a href="/logout" class="btn btn-secondary"><span class="fa fa-user"></span> Logout</a>
-            <% } else { %>
-            <a href="/login" class="btn btn-primary"><span class="fa fa-user"></span> Local Login</a>
+                <a href="/logout" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> &nbsp;Logout</a>
+                <a href="/dashboard" class="btn btn-info"><i class="fas fa-user-circle"></i>&nbsp;My Account</a>
+                <% } else { %>
+            <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in"></i> &nbsp;Local Login</a>
+            <a href="/signup" class="btn btn-info"><i class="fas fa-user-plus"></i> &nbsp;Local Signup</a>
             <% } %>
-            <a href="/signup" class="btn btn-info"><span class="fa fa-user"></span> Local Signup</a>
         </div>
 
         <% if (isLoggedIn) { %>

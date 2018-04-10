@@ -1,0 +1,23 @@
+<header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">Scheduly</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link <%= currentPath === '/dashboard' ? 'active' : '' %>" href="/dashboard"><i class="fas fa-home"></i>&nbsp;Dashboard</a>
+            <a class="mdl-navigation__link <%= currentPath === '/event_types' ? 'active' : '' %>" href="/event_types"><i class="fas fa-calendar-alt"></i>&nbsp;Event Types</a>
+            <a class="mdl-navigation__link <%= currentPath === '/account' ? 'active' : '' %>" href=""><i class="fas fa-user-circle"></i>&nbsp;<%= currentUser.username %></a>
+        </nav>
+    </div>
+</header>
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Scheduly</span>
+    <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+    </nav>
+</div>

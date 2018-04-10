@@ -48,11 +48,11 @@ module.exports = function(passport) {
                             })
                             .then((userid) => {
                                 console.log(`${userid} is created`)
-                                done(null, true, req.flash('signupMessage', 'signup success'))
+                                return done(null, true, req.flash('signupMessage', 'signup success'))
                             })
                             .catch((err) => {
                                 console.log(`insert user error: ${error}`)  
-                                done(err, false, req.flash('signupMessage', 'Fail to signup new user'))
+                                return done(err, false, req.flash('signupMessage', 'Fail to signup new user'))
                             })
 
                 } else {
@@ -70,12 +70,13 @@ module.exports = function(passport) {
         new LocalStrategy({
             usernameField: 'username',
             passwordField: 'password',
-            passReqToCallback : true
+            passReqToCallback : true // allows us to pass back the entire request to the callback
         }, (req,username, password, done) => {
             knex('user').where({username}).first()
                 .then((user) => {
                     console.log("Looking for :",user)
-                    if (!user) return done(null, false, req.flash('loginMessage', 'Wrong username or password!'));
+                    if (!user) return done(null, false, req.flash('loginMessage', 'Wrong username!'));
+                    
                     const { hash } = saltHashPassword({
                         password,
                         salt: user.salt
@@ -83,10 +84,10 @@ module.exports = function(passport) {
                     
                     console.log("Login success: ", hash === user.encrypted_password);
 
-                    if (hash === user.encrypted_password) return done(null, user)
-                    else return done(null, false, req.flash('loginMessage', 'Wrong password!'));
+                    return (hash === user.encrypted_password) ? done(null, user) :
+                    done(null, false, req.flash('loginMessage', 'Wrong password!'));
                 })
-                .catch((err) => { return done(err)})
+                .catch((err) => done(err))
         })
     )
 }

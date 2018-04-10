@@ -15,19 +15,22 @@ module.exports = function(app, passport) {
     })
 
     // login page
-    app.get('/login', (req, res) => {
+    app.get('/login', isLoggedout,(req, res) => {
         res.render('pages/login', { 
             message: req.flash('loginMessage'),
             title: "LOGIN"
         })
     });
 
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true // allow flash message
-    }), (req,res) => {
+    app.post('/login', (req,res, next) => {
+        passport.authenticate('local-login', {
+            successRedirect: '/dashboard',
+            failureRedirect: '/login',
+            failureFlash: true // allow flash message
+        })(req,res,next);
+        
         console.log('logging in :', req);
+        console.log('remember login: ', req.body.remember );
 
         if (req.body.remember) {
             req.session.cookie.maxAge = 100 * 60000 * 3;
@@ -37,7 +40,7 @@ module.exports = function(app, passport) {
     })
 
     // signup page
-    app.get('/signup', (req,res) => {
+    app.get('/signup', isLoggedout,(req,res) => {
         res.render('pages/signup', {
             message: req.flash('signupMessage'),
             title: "SIGNUP"
@@ -47,13 +50,7 @@ module.exports = function(app, passport) {
         successRedirect: '/',
         failureRedirect: '/signup',
         failureFlash: true // allow flash message
-    }), (req,res) => {
-        store
-        .createUser({
-            username: req.body.username,
-            password: req.body.password 
-        })
-    });
+    }));
 
     // logout action
     app.get('/logout', function(req, res){
@@ -68,13 +65,23 @@ module.exports = function(app, passport) {
 
         res.redirect('/')
     })
+
+    // !-- login required --//
+    app.get('/dashboard', isLoggedIn, (req,res) => {
+        res.render('pages/dashboard', {
+            message: req.flash('dashboardMessage'),
+            title: 'Dashboard',
+            currentPath: req.route.path,
+            currentUser: req.user
+        })
+    })
 }
 
 // route middleware
 function isLoggedIn(req,res,next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/');
+    return req.isAuthenticated() ? next() : res.redirect('/');
 } 
+
+function isLoggedout(req,res, next) {
+    return req.isAuthenticated() ? res.redirect('/') : next(); 
+}
