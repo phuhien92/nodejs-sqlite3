@@ -1,14 +1,17 @@
 <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
         <!-- Title -->
-        <span class="mdl-layout-title">Scheduly</span>
+        <span class="mdl-layout-title">
+            <img src="../img/logo.png">Scheduly
+        </span>
         <!-- Add spacer, to align navigation to the right -->
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation. We hide it in small screens. -->
         <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link <%= currentPath === '/dashboard' ? 'active' : '' %>" href="/dashboard"><i class="fas fa-home"></i>&nbsp;Dashboard</a>
-            <a class="mdl-navigation__link <%= currentPath === '/event_types' ? 'active' : '' %>" href="/event_types"><i class="fas fa-calendar-alt"></i>&nbsp;Event Types</a>
-            <a class="mdl-navigation__link <%= currentPath === '/account' ? 'active' : '' %>" href=""><i class="fas fa-user-circle"></i>&nbsp;<%= currentUser.username %></a>
+            <a class="mdl-navigation__link <%= currentPath === '/admin/dashboard' ? 'active' : '' %>" href="/admin/dashboard"><i class="fas fa-home"></i>&nbsp;Dashboard</a>
+            <a class="mdl-navigation__link <%= currentPath === '/admin/event_types' ? 'active' : '' %>" href="/admin/event_types"><i class="fas fa-calendar-alt"></i>&nbsp;Event Types</a>
+            <a class="mdl-navigation__link <%= currentPath === '/admin/profile' ? 'active' : '' %>" href="/admin/profile"><i class="fas fa-user-circle"></i>&nbsp;<%= currentUser.username %></a>
+            <a href="/logout" class="mdl-navigation__link"><i class="fas fa-sign-out-alt"></i> &nbsp;Log Out</a>
         </nav>
     </div>
 </header>

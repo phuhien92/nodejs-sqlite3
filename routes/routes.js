@@ -40,7 +40,9 @@ module.exports = function(app, passport) {
     })
 
     // signup page
-    app.get('/signup', isLoggedout,(req,res) => {
+    app.get('/signup',(req,res) => {
+        console.log("signup: authenticated: ", req.isAuthenticated())
+        return req.isAuthenticated() ? res.redirect('/dashboard') :
         res.render('pages/signup', {
             message: req.flash('signupMessage'),
             title: "SIGNUP"
@@ -75,13 +77,15 @@ module.exports = function(app, passport) {
             currentUser: req.user
         })
     })
+
+    /* Event Types */
+    app.get('/event_types', isLoggedIn, (req,res) => {
+        res.render('pages/dashboard', {
+            message: req.flash('dashboardMessage'),
+            title: 'Dashboard',
+            currentPath: req.route.path,
+            currentUser: req.user
+        })
+    })
 }
 
-// route middleware
-function isLoggedIn(req,res,next) {
-    return req.isAuthenticated() ? next() : res.redirect('/');
-} 
-
-function isLoggedout(req,res, next) {
-    return req.isAuthenticated() ? res.redirect('/') : next(); 
-}

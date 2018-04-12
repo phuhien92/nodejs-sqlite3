@@ -8,6 +8,8 @@ const morgan  = require('morgan');
 
 const cookieParser = require('cookie-parser'); // parse cookie header 
 
+const auth = require('./routes/auth');
+
 // passport 
 const passport = require('passport');
 const flash    = require('connect-flash');
@@ -41,7 +43,9 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // pass passport for configuration
 require('./config/passport')(passport); 
 // routes
-require('./routes/routes.js')(app, passport);
+app.use('/',require('./routes/index'));
+app.use('/admin', auth.isLoggedIn,require('./routes/admin'));
+//require('./routes/index.js')(app, passport);
 
 app.listen(app.get('port'), () => {
     console.log("Listening to port: ", app.get("port"))

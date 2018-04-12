@@ -4,7 +4,9 @@ html, body {
     line-height: 1.4em;
     color: #656a72;
 }
-
+.text-center {
+    text-align: center;
+}
 .padding {
     padding-left: 15px;
     padding-right: 15px;
