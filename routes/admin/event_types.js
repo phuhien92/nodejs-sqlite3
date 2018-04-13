@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const auth   = require('./../auth');
 
 // !-- event types index page --//
-router.get('/', auth.isLoggedIn, (req,res) => {
+router.get('/', (req,res) => {
     res.render('pages/event_types', {
         message: req.flash('eventtypesMessage'),
         title: 'Event Tyes',

@@ -44,7 +44,9 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./config/passport')(passport); 
 // routes
 app.use('/',require('./routes/index'));
+//app.use('/admin',require('./routes/admin')); /* Todo: add isLoggedIn */
 app.use('/admin', auth.isLoggedIn,require('./routes/admin'));
+
 //require('./routes/index.js')(app, passport);
 
 app.listen(app.get('port'), () => {

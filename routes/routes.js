@@ -59,33 +59,5 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-
-    // book a product
-    app.post('/book', (req,res) => {
-        console.log("booked product: ", req.body.product);
-        let backURL = req.header('Referer') || '/';
-
-        res.redirect('/')
-    })
-
-    // !-- login required --//
-    app.get('/dashboard', isLoggedIn, (req,res) => {
-        res.render('pages/dashboard', {
-            message: req.flash('dashboardMessage'),
-            title: 'Dashboard',
-            currentPath: req.route.path,
-            currentUser: req.user
-        })
-    })
-
-    /* Event Types */
-    app.get('/event_types', isLoggedIn, (req,res) => {
-        res.render('pages/dashboard', {
-            message: req.flash('dashboardMessage'),
-            title: 'Dashboard',
-            currentPath: req.route.path,
-            currentUser: req.user
-        })
-    })
 }
 
