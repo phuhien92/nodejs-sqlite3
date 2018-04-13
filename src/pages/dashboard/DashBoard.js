@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import EventForm from './../../components/common/EventForm';
+
 
 export default class DashBoard extends Component {
 

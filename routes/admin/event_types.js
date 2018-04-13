@@ -10,4 +10,7 @@ router.get('/', (req,res) => {
     })
 });
 
+router.post('/create_event', (req,res, next) => {
+    return res.status(200);
+})
 module.exports = router;
