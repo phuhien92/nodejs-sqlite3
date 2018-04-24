@@ -3,9 +3,9 @@ const router = require('express').Router();
 // !-- profile page --//
 /* admin/profile */
 router.get('/', (req,res) => {
-    res.render('pages/profile', {
-        message: req.flash('profileMessage'),
-        title: `Profile: ${req.user.username}`,
+    res.render('pages/account', {
+        message: req.flash('accountMessage'),
+        title: `Account: `,
         currentPath: req.baseUrl,
         currentUser: req.user
     })

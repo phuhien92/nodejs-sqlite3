@@ -5,7 +5,7 @@ router.get('/', (req,res,next) => {
 })
 
 router.use('/dashboard',require('./dashboard'));
-router.use('/profile', require('./profile'));
+router.use('/account', require('./account'));
 router.use('/event_types', require('./event_types'));
 
 module.exports = router;

@@ -1,7 +1,5 @@
 const express = require('express');
 
-const store   = require('./store');
-
 const env     = process.env.NODE_ENV || "development";
 
 const morgan  = require('morgan');
@@ -9,6 +7,11 @@ const morgan  = require('morgan');
 const cookieParser = require('cookie-parser'); // parse cookie header 
 
 const auth = require('./routes/auth');
+
+const path = require('path');
+
+// dev / prod config
+require('./config/keys');
 
 // passport 
 const passport = require('passport');
@@ -22,7 +25,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(cookieParser());
@@ -44,8 +47,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./config/passport')(passport); 
 // routes
 app.use('/',require('./routes/index'));
-//app.use('/admin',require('./routes/admin')); /* Todo: add isLoggedIn */
-app.use('/admin', auth.isLoggedIn,require('./routes/admin'));
+app.use('/admin',require('./routes/admin')); /* Todo: add isLoggedIn */
+//app.use('/admin', auth.isLoggedIn,require('./routes/admin'));
 
 //require('./routes/index.js')(app, passport);
 
