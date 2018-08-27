@@ -1,17 +1,15 @@
-const nextApp = require('next');
-const express = require('express');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const Raven = require('raven');
-const cookieParser = require('cookie-parser'); // parse cookie header 
-const bodyParser = require('body-parser');
-const passport = require('passport');
+const nextApp 	= require('next');
+const express 	= require('express');
+const helmet 	= require('helmet');
+const morgan 	= require('morgan');
+const Raven 	= require('raven');
+const cookieParser 	= require('cookie-parser'); // parse cookie header 
+const bodyParser 	= require('body-parser');
 const config = require('./config');
 const {
 	preservedUrls
 } = require('./controllers/validateBodyController');
-
-require('./passport');
+const auth = require('./controllers/authController');
 
 if (config.RAVEN_DSN) {
 	Raven.config(config.RAVEN_DSN).install();
@@ -54,7 +52,6 @@ app.prepare().then(() => {
 	server.use(bodyParser.urlencoded({
 		extended: true
 	}));
-	server.use(passport.initialize());
 	server.use(express.static('static'));
 
 	server.use((req, res, next) => {
@@ -79,8 +76,13 @@ app.prepare().then(() => {
 	/* View routes */
 	server.get('/', (req, res) => app.render(req, res, '/'));
 	server.get('/login', (req, res) => app.render(req, res, '/login'));
-	server.get('/logout', (req, res) => app.render(req, res, '/logout'));
-
+	server.get('/event_types', (req,res) => app.render(req, res, '/event_types'));
+	
+	/* User and authentication */
+	server.post('/api/auth/signup', catchErrors(auth.signup));
+	server.post('/api/auth/login', catchErrors(auth.login));
+	server.post('/api/auth/sessionLogin', catchErrors(auth.sessionLogin));
+	
 	server.get('*', (req, res) => handle(req, res));
 
 	server.listen(port, err => {

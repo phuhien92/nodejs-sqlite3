@@ -13,4 +13,10 @@ module.exports = {
     MAIL_SECURE: false,
     MAIL_USER: '',
     MAIL_PASSWORD: '',
+
+    /* generate random avatar for users */
+    RANDOM_AVATAR: "https://api.adorable.io/avatars/120/abott@adorable.png",
+
+    /* Firebse config */
+    databaseURL: "https://nextjs-b37bf.firebaseio.com",
 }

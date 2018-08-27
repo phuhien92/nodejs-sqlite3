@@ -1,9 +1,17 @@
 import {
     showPageLoading,
-    hidePageLoading
+    hidePageLoading,
+    signupUser,
+    loginUser,
+    logoutUser,
+    unauthUser
 } from './auth';
 
 export {
     showPageLoading,
-    hidePageLoading
+    hidePageLoading,
+    signupUser,
+    loginUser,
+    logoutUser,
+    unauthUser
 }

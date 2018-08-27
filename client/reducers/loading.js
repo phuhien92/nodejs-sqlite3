@@ -4,7 +4,8 @@ const initialState = {
     api: false,
     domain: false,
     login: false,
-    signup: false
+    signup: false,
+    page: false
 }
 
 const loading = (state = initialState, action) => {

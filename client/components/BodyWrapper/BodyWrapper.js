@@ -1,11 +1,13 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { auth } from './../../firebase';
 import styled from 'styled-components';
-import cookie from 'js-cookie';
-import PageLoading from '../PageLoading';
+import PageLoading from './../PageLoading';
+import Header from '../Header';
 import { hidePageLoading } from '../../actions';
-
+import * as types from './../../actions/actionTypes';
 
 const Wrapper = styled.div`
     position: relative;
@@ -41,6 +43,19 @@ const ContentWrapper = styled.div`
 class BodyWrapper extends React.Component {
     componentDidMount () {
         
+        auth.onAuthStateChanged( ( currentUser ) => {
+            
+            if (currentUser) {
+                this.props.authUser({
+                    uid : currentUser.uid,
+                    photoURL: currentUser.photoURL,
+                    email: currentUser.email,
+                    refreshToken: currentUser.refreshToken             
+                })
+            }
+            this.props.hidePageLoading();
+        });
+        
     }
     
     render() {
@@ -50,6 +65,7 @@ class BodyWrapper extends React.Component {
         return (
             <Wrapper>
                 <ContentWrapper>
+                    <Header/>
                     {content}
                 </ContentWrapper>
             </Wrapper>
@@ -58,7 +74,7 @@ class BodyWrapper extends React.Component {
 }
 
 BodyWrapper.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     hidePageLoading: PropTypes.func.isRequired,
     pageLoading: PropTypes.bool.isRequired,
     norenew: PropTypes.bool
@@ -68,10 +84,14 @@ BodyWrapper.defaultProps = {
     norenew: false 
 }
 
-const mapStateToProps = ({loading: { page: pageLoading}}) => ({pageLoading});
+const mapStateToProps = ({loading: { page: pageLoading}}) => ({
+    pageLoading
+});
+
 
 const mapDispatchToProps = dispatch => ({
-    hidePageLoading: () => dispatch(hidePageLoading())
+    hidePageLoading: () => dispatch(hidePageLoading()),
+    authUser: (payload) => dispatch({type: types.AUTH_USER, payload: payload})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BodyWrapper);

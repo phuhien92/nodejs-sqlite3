@@ -1,28 +1,47 @@
-import React, { Component } from 'react';
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import withRedux from 'next-redux-wrapper';
-import initialState from '../store';
-import BodyWrapper from '../components/BodyWrapper';
+import BodyWrapper from './../components/BodyWrapper';
+import NeedToLogin from './../components/NeedToLogin';
+import * as types from './../actions/actionTypes';
 
-class Homepage extends Component {
+class HomePage extends Component {
+    
+    static async getInitialProps(props) {
+        //console.log(props)
+    }
+
+    componentDidMount () {
+        
+    }
+    
+    shouldComponentUpdate(nextProps) {
+        return this.props.isAuthenticated !== nextProps.isAuthenticated;
+    }
+
     render() {
+        const { isAuthenticated } = this.props;
+        const needToLogin = !isAuthenticated && <NeedToLogin/>
+
         return (
             <BodyWrapper>
-                hello nextapp.js app
+                {needToLogin}
+                <div>Prop from Redux {this.props.foo}</div>
+                <div>Prop from getInitialProps {this.props.custom}</div>
             </BodyWrapper>
         )
     }
 }
-Homepage.propTypes = {
 
+HomePage.propsTypes = {
+    isAuthenticated: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = () => {};
-
+const mapStateToProps = (state) => {
+    console.log(state)
+}
 const mapDispatchToProps = dispatch => ({
-  
-});
 
-//export default Homepage;
+})
 
-export default withRedux(initialState, mapStateToProps, mapDispatchToProps)(Homepage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
