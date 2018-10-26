@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import Router from 'next/router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import cookie from 'js-cookie';
-import axios from 'axios';
 import { fadeIn } from '../../helpers/animations';
+import Button from '../Button';
+import EventList from './content/EventList';
 
 const Wrapper = styled.div`
-  poistion: relative;
-  width: 600px;
-  max-width: 90%;
+  width: 960px;
+  max-width: 1200px;
+  padding: 0 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 0 80px;
   animation: ${fadeIn} 0.8s ease;
-
+  box-sizing: border-box;
   > * {
     max-width: 100%;
   }
@@ -57,12 +55,26 @@ const Wrapper = styled.div`
 `;
 
 class EventTypes extends Component {
+    state = {
+      openForm: true
+    }
+    
+    toggleEventForm = () => {
+      let newState = {...this.state};
+      let openForm = newState.openForm;
+
+      this.setState({ openForm: !openForm})
+    }
+
     render () {
-        return (
-            <Wrapper>
-                Event Types s
-            </Wrapper>
-        )
+      let {
+        isAuthenticated
+      } = this.props;
+      return (
+          <Wrapper>
+            <EventList/>
+          </Wrapper>
+      )
     }
 }
 

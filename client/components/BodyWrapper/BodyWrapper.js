@@ -8,6 +8,24 @@ import PageLoading from './../PageLoading';
 import Header from '../Header';
 import { hidePageLoading } from '../../actions';
 import * as types from './../../actions/actionTypes';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { 
+    faCalendar,
+    faCheck,
+    faCog,
+    faAngleDown,
+    faPen,
+    faTrash
+} from '@fortawesome/free-solid-svg-icons';
+
+library.add(
+    faCalendar,
+    faCheck,
+    faCog,
+    faAngleDown,
+    faPen,
+    faTrash
+);
 
 const Wrapper = styled.div`
     position: relative;

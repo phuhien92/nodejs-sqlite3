@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import LoginBox from './LoginBox';
 import LoginInputLabel from './LoginInputLabel';
 import TextInput from '../TextInput';
 import Button from '../Button';
+import Error from '../Error';
 import { loginUser, signupUser } from '../../actions';
+import { withFormik } from 'formik';
+import Yup from 'yup';
 
 const Wrapper = styled.div`
   flex: 0 0 auto;
@@ -32,31 +34,12 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const VerificationMsg = styled.p`
-  font-size: 24px;
-  font-weight: 300;
-`;
+const FormGroup = styled.div`
+  position: relative;
+  margin-bottom: 30px;
+`
 
-const User = styled.span`
-  font-weight: normal;
-  color: #512da8;
-  border-bottom: 1px dotted #999;
-`;
-
-const ForgetPassLink = styled.a`
-  align-self: flex-start;
-  margin: -24px 0 32px;
-  font-size: 14px;
-  text-decoration: none;
-  color: #2196f3;
-  border-bottom: 1px dotted transparent;
-
-  :hover {
-    border-bottom-color: #2196f3;
-  }
-`;
-
-class Login extends Component {
+class LoginInnerForm extends Component {
 
   authHandler = (type) => {
     const {loading} = this.props;
@@ -82,44 +65,117 @@ class Login extends Component {
   }
 
   render() {
+    const {
+      values,
+      touched,
+      errors,
+      isSubmitting,
+      handleChange,
+      handleBlur,
+      handleSubmit
+    } = this.props;
+
     return  (
       <Wrapper>
-        <LoginBox id="login-form" onSubmit={this.loginHandler}>
+        <LoginBox id="login-form" onSubmit={handleSubmit}>
+          <FormGroup>
             <LoginInputLabel htmlFor="email" test="test">
               Email address
             </LoginInputLabel>
-            <TextInput type="email" name="email" id="email" autoFocus />
+            <TextInput 
+              type="email" 
+              name="email" 
+              id="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.email && touched.email ? 'text-input error':'text-input'} 
+              autoFocus 
+            />
+            {errors.email &&
+            touched.email && <Error error={errors} type='email'/>
+            }
+          </FormGroup>
+          
+          <FormGroup>
             <LoginInputLabel htmlFor="password">Password (min chars: 6)</LoginInputLabel>
-            <TextInput type="password" name="password" id="password" />
-              
-            <ButtonWrapper>
-              <Button
-                  icon={this.props.loading.login ? 'loader' : 'login'}
-                  onClick={this.loginHandler}
-                  big
-              >
-                  Login
-              </Button>
-              <Button
-                  icon={this.props.loading.signup ? 'loader' : 'signup'}
-                  color="purple"
-                  onClick={this.signupHandler}
-                  big
-              >
-                  Sign up
-              </Button>
-            </ButtonWrapper>
+            <TextInput 
+              type="password" 
+              name="password" 
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.email && touched.email ? 'text-input error':'text-input'}
+            />
+            {errors.password &&
+            touched.password && <Error error={errors} type={'password'}></Error>
+            }
+          </FormGroup>
+          
+          <FormGroup>
+            {errors.server && <Error error={errors} type={'server'}></Error>}
+          </FormGroup>
+          <ButtonWrapper>
+            <Button
+                type="submit"
+                icon={this.props.loading.login ? 'loader' : 'login'}
+                disabled={isSubmitting}
+            >
+                Login
+            </Button>
+            {/* <Button
+                icon={this.props.loading.login ? 'loader' : 'login'}
+                onClick={this.loginHandler}
+                disabled={isSubmitting}
+            >
+                Login
+            </Button>
+            <Button
+                icon={this.props.loading.signup ? 'loader' : 'signup'}
+                color="purple"
+                onClick={this.signupHandler}
+                disabled={isSubmitting}
+            >
+                Sign up
+            </Button> */}
+          </ButtonWrapper>
+            
         </LoginBox>
       </Wrapper>
     )
   }
 }
 
-Login.propTypes = {
+const LoginForm = withFormik({
+  mapPropsToValues: () => ({email: '', password:''}),
+  validationSchema: Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Require at least 6 characters.')
+      .max(30, 'Maximum password length is 30.')
+      .required('Password is required')
+  }),
+  handleSubmit: (values, {props, setSubmitting, setErrors}) => {
+    props.login(values)
+      .catch(error => {
+        console.log("Components/Login/Login.js : ",error)
+        setErrors({server: error.message});
+      })
+    setTimeout(() => {
+      setSubmitting(false);
+    },1000)
+  },
+  displayName: 'LoginForm'
+})(LoginInnerForm)
+
+LoginInnerForm.propTypes = {
     signup: PropTypes.func.isRequired,
     showPageLoading: PropTypes.func.isRequired,
 };
-  
+
 const mapStateToProps = ({ auth, loading }) => ({ auth, loading });
   
 const mapDispatchToProps = dispatch => ({
@@ -128,4 +184,6 @@ const mapDispatchToProps = dispatch => ({
     showPageLoading: () => dispatch(showPageLoading()),
 });
   
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+const Login = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+
+export default Login;

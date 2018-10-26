@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 const prodConfig = {
     apiKey: "AIzaSyAZ5IR7117AIoPXQhadL619_z0JFZBIoFY",
@@ -27,7 +28,9 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth();
 //auth.setPersistence(firebase.auth.Auth.Persistence.NONE);
+const db   = firebase.database();
 
 export {
-    auth
+    auth,
+    db
 }

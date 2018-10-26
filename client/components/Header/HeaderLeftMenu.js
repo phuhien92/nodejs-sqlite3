@@ -28,17 +28,10 @@ const HeaderLeftMenu = props => {
     Router.push(path);
   };
 
-  const event_types = props.auth.isAuthenticated && (
-    <HeaderMenuItem>
-      <a href="/event_types" title="Event Types" onClick={goTo}>
-        Event Types
-      </a>
-    </HeaderMenuItem>
-  )
 
   return (
     <List>
-      {event_types}
+      
     </List>
   );
 };

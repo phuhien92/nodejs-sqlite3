@@ -1,5 +1,6 @@
+const path = require('path');
 const admin = require('firebase-admin');
-const fbServiceAcctKey = require('../utils/fbServiceAccountKey');
+const fbServiceAcctKey = path.join(__dirname,'./../utils/fbServiceAccountKey.json');
 const config = require('./../config');
 
 admin.initializeApp({

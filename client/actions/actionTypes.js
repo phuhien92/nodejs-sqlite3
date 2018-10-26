@@ -12,3 +12,10 @@ export const LOGIN_LOADING = 'LOGIN_LOADING';
 export const SIGNUP_LOADING = 'SIGNUP_LOADING';
 
 /* Homepage input actions */
+
+/* Event types page actions */
+export const EVENTS_FETCH_SUCCESS  = 'EVENTS_FETCH_SUCCESS';
+export const GET_EVENT_SUCCESS     = 'GET_EVENT_SUCCESS';
+export const GET_EVENT_FAILURE     = 'GET_EVENT_FAILURE';
+export const PUBLISH_EVENT_SUCCESS = 'PUBLISH_EVENT_SUCCESS';
+export const TOGGLE_EDIT_EVENT_TAB = 'TOGGLE_EDIT_EVENT_TAB';
