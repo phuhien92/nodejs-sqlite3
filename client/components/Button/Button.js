@@ -5,79 +5,23 @@ import SVG from 'react-inlinesvg';
 import { spin } from '../../helpers/animations';
 
 const StyledButton = styled.button`
-  position: relative;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 32px;
-  font-size: 13px;
-  font-weight: normal;
+  -webkit-appearance: none;
+  background-color: #00a2ff;
+  color: #fff;
+  font-weight: 100;
+  border: 1px solid #00a2ff;
   text-align: center;
-  line-height: 1;
-  word-break: keep-all;
-  color: white;
-  background: linear-gradient(to right, #42a5f5, #2979ff);
-  box-shadow: 0 5px 6px rgba(66, 165, 245, 0.5);
-  border: none;
-  border-radius: 100px;
-  transition: all 0.4s ease-out;
+  text-decoration: none;
+  line-height: 20px;
   cursor: pointer;
-  overflow: hidden;
-
-  :hover,
-  :focus {
-    outline: none;
-    box-shadow: 0 6px 15px rgba(66, 165, 245, 0.5);
-    transform: translateY(-2px) scale(1.02, 1.02);
-  }
-
-  a & {
-    text-decoration: none;
-    border: none;
-  }
-
-  @media only screen and (max-width: 448px) {
-    height: 32px;
-    padding: 0 24px;
-    font-size: 12px;
-  }
-
-  ${({ color }) => {
-    if (color === 'purple') {
-      return css`
-        background: linear-gradient(to right, #7e57c2, #6200ea);
-        box-shadow: 0 5px 6px rgba(81, 45, 168, 0.5);
-
-        :focus,
-        :hover {
-          box-shadow: 0 6px 15px rgba(81, 45, 168, 0.5);
-        }
-      `;
-    }
-    if (color === 'gray') {
-      return css`
-        color: black;
-        background: linear-gradient(to right, #e0e0e0, #bdbdbd);
-        box-shadow: 0 5px 6px rgba(160, 160, 160, 0.5);
-
-        :focus,
-        :hover {
-          box-shadow: 0 6px 15px rgba(160, 160, 160, 0.5);
-        }
-      `;
-    }
-    return null;
-  }};
-
-  ${({ big }) =>
-    big &&
-    css`
-      height: 56px;
-      @media only screen and (max-width: 448px) {
-        height: 40px;
-      }
-    `};
+  outline: none;
+  padding: 12px 12px 11px;
+  border-radius: 0;
+  display: inline-block;
+  user-select: none;
+  box-sizing: border-box;
+  font-size: 16px;
+  min-width: 80px;
 `;
 
 const Icon = styled(SVG)`
@@ -123,7 +67,6 @@ const Button = props => {
     <Icon
       type={props.icon}
       round={props.round}
-      color={props.color}
       src={`/images/${props.icon}.svg`}
     />
   ) : (
@@ -146,7 +89,6 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  color: 'blue',
   icon: '',
   type: '',
   round: false,

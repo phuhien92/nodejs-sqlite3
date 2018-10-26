@@ -1,11 +1,19 @@
 import {
-    showPageLoading,
-    hidePageLoading,
     signupUser,
     loginUser,
     logoutUser,
     unauthUser
 } from './auth';
+
+import {
+    showPageLoading,
+    hidePageLoading
+} from './loading';
+
+import {
+    eventsFetch,
+    publishEvent
+} from './event';
 
 export {
     showPageLoading,
@@ -13,5 +21,7 @@ export {
     signupUser,
     loginUser,
     logoutUser,
-    unauthUser
+    unauthUser,
+    eventsFetch,
+    publishEvent
 }

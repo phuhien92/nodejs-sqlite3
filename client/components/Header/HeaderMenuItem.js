@@ -6,7 +6,8 @@ import { fadeIn } from '../../helpers/animations';
 const ListItem = styled.li`
   margin-left: 32px;
   animation: ${fadeIn} 0.8s ease;
-
+  text-align: center;
+  
   @media only screen and (max-width: 488px) {
     margin-left: 16px;
     font-size: 13px;

@@ -29,39 +29,17 @@ export const loginUser = ({email, password}) => async dispatch => {
 
     // As httpOnly cookies are to be used. do not persist any state client side
 
-    auth.signInWithEmailAndPassword(email, password)
+    return auth.signInWithEmailAndPassword(email, password)
     .then( user => {
-        // get the user's ID token a it is needed to exchange for a session cookie
-        console.log(auth)
-        // return auth.User.getIdToken()
-        // .then(idToken => {
-        //     console.log("idToken: ", idToken);
-        //     // dispatch(authUser({
-        //     //     email, photoURL, uid, refreshToken, idToken
-        //     // }));
-
-        //     const csrfToken = cookie.get('csrfToken');
-        //     return postIdTokenToSessionLogin('/api/auth/sessionLogin', idToken, csrfToken);
-        // })
-        // .then(() => {
-        //     // a page redirect would suffice as the persistence is set to NONE
-        //     return logoutUser()
-        // })
-        // .then(() => {
-        //     Router.push('/');
-        // })
-        // .catch(error => {
-        //     console.log("actions/auth/loginUser: idToken :", error);
-        // })
         Router.push('/');
         dispatch(showPageLoading());
     })
-    .catch(error => {
-        let errorCode = error.code;
-        let errorMsg  = error.message;
+    // .catch(error => {
+    //     let errorCode = error.code;
+    //     let errorMsg  = error.message;
 
-        console.log("/action/auth/loginUser:", error);
-    })
+    //     console.log("/action/auth/loginUser:", error);
+    // })
 }
 
 export const logoutUser = () => async (dispatch, getState) => auth.signOut();

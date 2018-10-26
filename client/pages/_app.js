@@ -4,12 +4,10 @@ import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import initialState from '../store';
 import * as types from './../actions/actionTypes';
-import BodyWrapper from "../components/BodyWrapper";
 
 class MainApp extends App {
 
-    static async getInitialProps({Component, ctx}) {
-
+    static async getInitialProps({Component, ctx, req}) {
         // we can dispatch from here too
         ctx.store.dispatch({type: types.SHOW_PAGE_LOADING, payload: true});
 

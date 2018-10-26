@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import HeaderMenuItem from './HeaderMenuItem';
 import { showPageLoading, logoutUser, unauthUser } from '../../actions';
 import Button from '../Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const List = styled.ul`
   display: flex;
@@ -15,13 +16,17 @@ const List = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
+
+  @media only screen and (max-width: 488px) {
+    justify-content: space-evenly;
+    width: 100%;
+  }
 `;
 
 const IMAGE = styled.img`
-  border-radius: 50%;
+  border-radius: 3px;
   width: 60px;
-  border: 5px solid #2979ff;
-  box-shadow: 0 5px 6px rgba(66,165,245,0.5);
+  box-shadow: 0 5px 6px #7c7e79;
 `;
 
 const LoginContainer = styled.div`
@@ -79,6 +84,7 @@ const HeaderMenu = props => {
   const event_types = props.auth.isAuthenticated && (
     <HeaderMenuItem>
       <a href="/event_types" title="Event Types" onClick={goTo}>
+        <FontAwesomeIcon icon="calendar" className='fa-5x' />
         <ItemTitle>Event Types</ItemTitle>
       </a>
     </HeaderMenuItem>

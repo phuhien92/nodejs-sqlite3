@@ -37,11 +37,7 @@ HomePage.propsTypes = {
     isAuthenticated: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = (state) => {
-    console.log(state)
-}
-const mapDispatchToProps = dispatch => ({
-
-})
+const mapStateToProps = (state) => ({})
+const mapDispatchToProps = dispatch => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

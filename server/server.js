@@ -10,6 +10,7 @@ const {
 	preservedUrls
 } = require('./controllers/validateBodyController');
 const auth = require('./controllers/authController');
+const routes = require('./routes')
 
 if (config.RAVEN_DSN) {
 	Raven.config(config.RAVEN_DSN).install();
@@ -37,7 +38,8 @@ const app = nextApp({
 	dir: './client',
 	dev
 });
-const handle = app.getRequestHandler();
+//const handle = app.getRequestHandler();
+const handle   = routes.getRequestHandler(app);
 
 app.prepare().then(() => {
 	const server = express();
@@ -59,6 +61,8 @@ app.prepare().then(() => {
 		return next();
 	});
 
+	server.use(handle);
+
 	// server.use((req, res, next) => {
 	// 	const {
 	// 		headers,
@@ -77,6 +81,12 @@ app.prepare().then(() => {
 	server.get('/', (req, res) => app.render(req, res, '/'));
 	server.get('/login', (req, res) => app.render(req, res, '/login'));
 	server.get('/event_types', (req,res) => app.render(req, res, '/event_types'));
+	// server.get('/event_types/:id', (req,res) => {
+
+	// 	const params = {id: req.params.id};
+	// 	console.log(params)
+	// 	return app.render(req, res, '/event_types/single', params)
+	// });
 	
 	/* User and authentication */
 	server.post('/api/auth/signup', catchErrors(auth.signup));

@@ -18,7 +18,7 @@ const LogoImage = styled.div`
 
   @media only screen and (max-width: 488px) {
     a {
-      font-size: 18px;
+      display: none;
     }
   }
 
