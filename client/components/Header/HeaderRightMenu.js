@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import HeaderMenuItem from './HeaderMenuItem';
 import { showPageLoading, logoutUser, unauthUser } from '../../actions';
 import Button from '../Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const List = styled.ul`
   display: flex;
@@ -23,11 +23,11 @@ const List = styled.ul`
   }
 `;
 
-const IMAGE = styled.img`
-  border-radius: 3px;
-  width: 60px;
-  box-shadow: 0 5px 6px #7c7e79;
-`;
+// const IMAGE = styled.img`
+//   border-radius: 3px;
+//   width: 60px;
+//   box-shadow: 0 5px 6px #7c7e79;
+// `;
 
 const LoginContainer = styled.div`
   display: inline-block;
@@ -38,13 +38,22 @@ const LoginContainer = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  color: #000;
+  color: #fff;
   font-weight: bold;
   font-size: 14px;
-`
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: all 0.1s linear;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
-const HeaderMenu = props => {
-  const goTo = e => {
+const HeaderMenu = (props) => {
+  const goTo = (e) => {
     e.preventDefault();
     const path = e.currentTarget.getAttribute('href');
     if (!path || window.location.pathname === path) return;
@@ -59,23 +68,22 @@ const HeaderMenu = props => {
       props.unAuthUser();
       Router.push('/login');
     })
-    .catch(() => {
-
+    .catch((error) => {
+      console.error("Header Right Menu :", error);
     });
-  }
+  };
 
   const login = !props.auth.isAuthenticated && (
     <HeaderMenuItem>
-      <a href="/login" title="login / signup" onClick={goTo}>
+      <a href="/login" title="login / sign up" onClick={goTo}>
         <Button>Login / Sign up</Button>
       </a>
     </HeaderMenuItem>
   );
 
-  const profile = props.auth.isAuthenticated && (
-    <HeaderMenuItem>
-      <a href="/profile" title="profile">
-        <IMAGE alt="avatar" src={props.auth.user.photoURL}></IMAGE>
+  const account = props.auth.isAuthenticated && (
+    <HeaderMenuItem >
+      <a href="/account" title="account" onClick={goTo}>
         <ItemTitle>Account</ItemTitle>
       </a>
     </HeaderMenuItem>
@@ -83,8 +91,7 @@ const HeaderMenu = props => {
 
   const event_types = props.auth.isAuthenticated && (
     <HeaderMenuItem>
-      <a href="/event_types" title="Event Types" onClick={goTo}>
-        <FontAwesomeIcon icon="calendar" className='fa-5x' />
+      <a href="/events" title="events" onClick={goTo}>
         <ItemTitle>Event Types</ItemTitle>
       </a>
     </HeaderMenuItem>
@@ -94,22 +101,16 @@ const HeaderMenu = props => {
     <LoginContainer>
       <HeaderMenuItem>
         <a href="/logout" title="logout" onClick={logoutHandler}>
-          <Button>Logout</Button>
+          <ItemTitle>Logout</ItemTitle>
         </a>
       </HeaderMenuItem>
     </LoginContainer>
   );
-  // const settings = props.auth.isAuthenticated && (
-  //   <HeaderMenuItem>
-  //     <a href="/settings" title="settings" onClick={goTo}>
-  //       <Button>Settings</Button>
-  //     </a>
-  //   </HeaderMenuItem>
-  // );
+
   return (
     <List>
       {event_types}
-      {profile}
+      {account}
       {logout}
       {login}
     </List>

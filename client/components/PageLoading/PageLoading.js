@@ -6,6 +6,7 @@ const Loading = styled.div`
   margin: 0 0 48px;
   flex: 1 1 auto;
   flex-basis: 250px;
+  height: 100vh;
   display: flex;
   align-self: center;
   align-items: center;

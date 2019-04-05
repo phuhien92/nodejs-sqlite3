@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import HeaderLogo from './HeaderLogo';
 import HeaderLeftMenu from './HeaderLeftMenu';
 import HeaderRightMenu from './HeaderRightMenu';
 import { showPageLoading } from '../../actions';
+import classnames from 'classnames';
 
 const Wrapper = styled.header`
-    display: flex;
-    width: 1232px;
-    max-width: 100%;
-    padding: 0 32px;
-    height: 102px;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    padding: 20px 32px;
+    background: rgb(3, 155, 229);
 
-    @media only screen and (max-width: 768px) {
-        height: auto;
-        align-items: flex-start;
-        padding: 16px;
-        margin-bottom: 32px;
+    &.js-authenticated {
+        margin-bottom: 50px;
     }
 `;
 
@@ -34,12 +27,11 @@ const LeftMenuWrapper = styled.div`
 `;
 
 const Header = props => (
-    <Wrapper>
+    <Wrapper className={ classnames({'js-authenticated': props.isAuthenticated})}>
       <LeftMenuWrapper>
-        <HeaderLogo showPageLoading={props.showPageLoading} />
         <HeaderLeftMenu />
       </LeftMenuWrapper>
-      <HeaderRightMenu showPageLoading={props.showPageLoading} />
+      <HeaderRightMenu />
     </Wrapper>
 );
   

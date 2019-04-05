@@ -10,12 +10,15 @@ import Error from '../Error';
 import { loginUser, signupUser } from '../../actions';
 import { withFormik } from 'formik';
 import Yup from 'yup';
+import Router from 'next/router';
+import { showPageLoading, hidePageLoading } from './../../actions';
 
 const Wrapper = styled.div`
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  margin: 24px 0 64px;
+  justify-content: center;
+  margin-top: 100px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -23,14 +26,6 @@ const ButtonWrapper = styled.div`
   justify-content: space-between;
   & > * {
     flex: 1 1 0;
-  }
-  & > *:last-child {
-    margin-left: 32px;
-  }
-  @media only screen and (max-width: 768px) {
-    & > *:last-child {
-      margin-left: 16px;
-    }
   }
 `;
 
@@ -64,6 +59,10 @@ class LoginInnerForm extends Component {
     this.authHandler('login')
   }
 
+  componentWillUnmount() {
+
+  }
+
   render() {
     const {
       values,
@@ -79,7 +78,7 @@ class LoginInnerForm extends Component {
       <Wrapper>
         <LoginBox id="login-form" onSubmit={handleSubmit}>
           <FormGroup>
-            <LoginInputLabel htmlFor="email" test="test">
+            <LoginInputLabel htmlFor="email">
               Email address
             </LoginInputLabel>
             <TextInput 
@@ -89,16 +88,16 @@ class LoginInnerForm extends Component {
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={errors.email && touched.email ? 'text-input error':'text-input'} 
-              autoFocus 
+              className={errors.email && touched.email ? 'error':''} 
             />
-            {errors.email &&
-            touched.email && <Error error={errors} type='email'/>
+            {
+              touched.email && errors.email &&
+              <Error error={errors.email}></Error>
             }
           </FormGroup>
           
           <FormGroup>
-            <LoginInputLabel htmlFor="password">Password (min chars: 6)</LoginInputLabel>
+            <LoginInputLabel htmlFor="password">Password</LoginInputLabel>
             <TextInput 
               type="password" 
               name="password" 
@@ -106,39 +105,27 @@ class LoginInnerForm extends Component {
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={errors.email && touched.email ? 'text-input error':'text-input'}
+              className={errors.password && touched.password ? 'error':''}
             />
-            {errors.password &&
-            touched.password && <Error error={errors} type={'password'}></Error>
+            {
+              touched.password && errors.password &&
+              <Error error={errors.password}></Error>
             }
           </FormGroup>
           
-          <FormGroup>
-            {errors.server && <Error error={errors} type={'server'}></Error>}
-          </FormGroup>
+          {
+            errors.server &&
+            <Error error={errors.server}></Error>
+          }
           <ButtonWrapper>
             <Button
                 type="submit"
-                icon={this.props.loading.login ? 'loader' : 'login'}
+                icon={isSubmitting ? 'loader' : 'login'}
+                color={isSubmitting ? 'gray' : 'blue'}
                 disabled={isSubmitting}
             >
                 Login
             </Button>
-            {/* <Button
-                icon={this.props.loading.login ? 'loader' : 'login'}
-                onClick={this.loginHandler}
-                disabled={isSubmitting}
-            >
-                Login
-            </Button>
-            <Button
-                icon={this.props.loading.signup ? 'loader' : 'signup'}
-                color="purple"
-                onClick={this.signupHandler}
-                disabled={isSubmitting}
-            >
-                Sign up
-            </Button> */}
           </ButtonWrapper>
             
         </LoginBox>
@@ -159,14 +146,20 @@ const LoginForm = withFormik({
       .required('Password is required')
   }),
   handleSubmit: (values, {props, setSubmitting, setErrors}) => {
+
+    setSubmitting(true);
+
     props.login(values)
+      .then(() => {
+        showPageLoading();
+        Router.push('/events');
+      })
       .catch(error => {
-        console.log("Components/Login/Login.js : ",error)
         setErrors({server: error.message});
       })
-    setTimeout(() => {
-      setSubmitting(false);
-    },1000)
+      .finally(() => {
+        setSubmitting(false);
+      })
   },
   displayName: 'LoginForm'
 })(LoginInnerForm)
@@ -182,6 +175,7 @@ const mapDispatchToProps = dispatch => ({
     login: (credentials) => dispatch(loginUser(credentials)),
     signup: (credentials) => dispatch(signupUser(credentials)),
     showPageLoading: () => dispatch(showPageLoading()),
+    hidePageLoading: () => dispatch(hidePageLoading())
 });
   
 const Login = connect(mapStateToProps, mapDispatchToProps)(LoginForm);

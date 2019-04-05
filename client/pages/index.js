@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BodyWrapper from './../components/BodyWrapper';
 import NeedToLogin from './../components/NeedToLogin';
 import * as types from './../actions/actionTypes';
+import Header from "../components/Header";
 
 class HomePage extends Component {
     
@@ -25,9 +26,7 @@ class HomePage extends Component {
 
         return (
             <BodyWrapper>
-                {needToLogin}
-                <div>Prop from Redux {this.props.foo}</div>
-                <div>Prop from getInitialProps {this.props.custom}</div>
+                <h1>This is index page</h1>
             </BodyWrapper>
         )
     }

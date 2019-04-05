@@ -15,7 +15,18 @@ import {
     publishEvent
 } from './event';
 
+const readEntity = (entityName, id) => ({
+    type: `REQUEST_READ_${entityName.toUpperCase()}`,
+    urlParams: { entityName, id },
+    meta: {
+        identifier: id,
+        entityName
+    }
+})
+
 export {
+    readEntity,
+
     showPageLoading,
     hidePageLoading,
     signupUser,

@@ -14,7 +14,11 @@ const LinkInput = styled.input`
   word-break: normal;
   outline: none;
   -webkit-appearance: none;
-  border-radius: 0;
+  border-radius: 5px;
+
+  &.error {
+    border-color: red;
+  }
 `;
 
 const TextInput = props => <LinkInput {...props} />;

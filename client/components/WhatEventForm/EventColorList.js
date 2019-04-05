@@ -25,7 +25,7 @@ class EventColorList extends Component {
 
     render () { 
 
-        let selectedColor = this.props.selectedColor,
+        let selectedColor = this.props.selectedColor || colors[0],
         view = colors.map( (color,index) => (
             <EventColor 
                 key={index} 

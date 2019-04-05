@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
-import HeaderMenuItem from './HeaderMenuItem';
 import { showPageLoading } from '../../actions';
 
 const List = styled.ul`
@@ -24,7 +23,7 @@ const HeaderLeftMenu = props => {
     e.preventDefault();
     const path = e.currentTarget.getAttribute('href');
     if (!path || window.location.pathname === path) return;
-    props.showPageLoading();
+    //props.showPageLoading();
     Router.push(path);
   };
 

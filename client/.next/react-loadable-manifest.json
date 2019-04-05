@@ -1,10 +1,54 @@
 {
-  "/Users/hluong/Desktop/experiment_source/NodeJS_Apps/SQLITE_NODEJS/noop": [
+  "./noop": [
     {
       "id": "../node_modules/next/dist/client/noop.js",
       "name": "../node_modules/next/dist/client/noop.js",
       "file": "static/chunks/0.js",
       "publicPath": "static/chunks/0.js"
+    }
+  ],
+  "./../../../node_modules/react-calendar/dist/Calendar.css": [
+    {
+      "id": "../node_modules/react-calendar/dist/Calendar.css",
+      "name": "../node_modules/react-calendar/dist/Calendar.css",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "undefined": [
+    {
+      "id": 2,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    },
+    {
+      "id": 3,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    },
+    {
+      "id": 4,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "./../../../node_modules/react-date-picker/dist/DatePicker.css": [
+    {
+      "id": "../node_modules/react-date-picker/dist/DatePicker.css",
+      "name": "../node_modules/react-date-picker/dist/DatePicker.css",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "./../../../node_modules/@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css": [
+    {
+      "id": "../node_modules/@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css",
+      "name": "../node_modules/@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css",
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
     }
   ]
 }

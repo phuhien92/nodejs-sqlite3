@@ -1,6 +1,6 @@
 {
   "devFiles": [
-    "static/development/dll/dll_5ca2ec0232f0da96f4b3.js"
+    "static/development/dll/dll_b2f088288614bb55665a.js"
   ],
   "pages": {
     "/_app": [
@@ -11,11 +11,21 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/event_types/edit": [
+    "/events": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/event_types": [
+    "/events/edit": [
+      "static/runtime/webpack.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/runtime/main.js"
+    ],
+    "/dashboard": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/account": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

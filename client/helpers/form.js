@@ -1,69 +1,34 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+import { fadeIn } from './animations';
+
+export const Form = styled.form`
+    position: relative;
+    flex-basis: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    animation: ${fadeIn} 0.8s ease-out;
+    width: 100%;
+    margin-top: 20px;
+`;
 
 export const FormGroup = styled.div`
     position: relative;
+    margin-bottom: 40px;
 `;
 
 export const FormLabel = styled.label`
     display: block;
     margin-bottom: 0.5rem;
+    font-weight: 700;
+
+    > .reddot {
+        color: red;
+    }
 `;
 
-export const FormControlInput = styled.input`
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-`;
-
-export const FormCaption = styled.div`
-    padding: 10px 0;
-    font-size: 16px;
-`;
-
-/* Expandable collection */
-export const ExpandableBlock = styled.div`
-    border: solid 1px #666a73;
-    box-shadow: inset 0 0 0 1px #666a73;
-    width: 100%;
-    margin-bottom: 10px;
-`;
-
-export const ExpandableHeader = styled.div`
-    border-bottom: solid 1px #dadada;
-    min-height: 70px;
-    padding: 8px 20px;
-    font-size: 16px;
-    box-sizing: border-box;
-    cursor: pointer;
-    position: relative;
-`;
-
-export const ExpandableTitle = styled.h1`
-    font-size: 16px;
-    color: #000;
-    margin: 10px 0 0 0;
-`;
-
-export const ExpandableSubtitle = styled.h5`
-    font-size: 14px;
-    color: #878787;
-    font-weight: 500;
-    margin: 5px 0 10px 0;
-`;
-
-export const ExpandableContent = styled.div`
-    padding: 30px 52px;`
-;
-
-export const ExpandButtonLink = styled.button`
-    background: none;
-    color: #000;
-    border: none;
-    box-shadow: none;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 14px;
-    cursor: pointer;
+export const FormSubLabel = styled.div`
+    color: #777;
+    font-size: 12px;
 `;

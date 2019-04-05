@@ -9,29 +9,9 @@ const ErrorMessage = styled.p`
   display: block;
   font-size: 14px;
   color: red;
-  animation: ${fadeIn} 0.3s ease-out;
-
-  @media only screen and (max-width: 768px) {
-    right: 8px;
-    bottom: -40px;
-    font-size: 12px;
-  }
-
-  ${({ left }) =>
-    left > -1 &&
-    css`
-      right: auto;
-      left: ${left}px;
-    `};
-
-  ${({ bottom }) =>
-    bottom &&
-    css`
-      bottom: ${bottom}px;
-    `};
 `;
 
-const Error = ({ bottom, error, left, type, classes }) => {
+const Error = ({ error, bottom, left, type, classes }) => {
   const message = error && (
     <ErrorMessage left={left} bottom={bottom}>
       {error}
@@ -48,9 +28,10 @@ Error.propTypes = {
 };
 
 Error.defaultProps = {
-  bottom: -64,
-  left: -1,
-  classes: ''
+  bottom: 0,
+  left: 0,
+  classes: '',
+  type: 'alert-primary'
 };
 
 export default Error;

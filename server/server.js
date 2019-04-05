@@ -10,7 +10,6 @@ const {
 	preservedUrls
 } = require('./controllers/validateBodyController');
 const auth = require('./controllers/authController');
-const routes = require('./routes')
 
 if (config.RAVEN_DSN) {
 	Raven.config(config.RAVEN_DSN).install();
@@ -38,6 +37,8 @@ const app = nextApp({
 	dir: './client',
 	dev
 });
+
+const routes = require('./routes');
 //const handle = app.getRequestHandler();
 const handle   = routes.getRequestHandler(app);
 
@@ -63,40 +64,36 @@ app.prepare().then(() => {
 
 	server.use(handle);
 
-	// server.use((req, res, next) => {
-	// 	const {
-	// 		headers,
-	// 		path
-	// 	} = req;
-	// 	if (
-	// 		headers.host !== config.DEFAULT_DOMAIN &&
-	// 		(path === '/' || preservedUrls.some(item => item === path.replace('/', '')))
-	// 	) {
-	// 		return res.redirect(`http://${config.DEFAULT_DOMAIN + path}`);
-	// 	}
-	// 	return next();
-	// });
-
 	/* View routes */
+	server.get('*', (req, res) => handle(req, res));
 	server.get('/', (req, res) => app.render(req, res, '/'));
 	server.get('/login', (req, res) => app.render(req, res, '/login'));
-	server.get('/event_types', (req,res) => app.render(req, res, '/event_types'));
-	// server.get('/event_types/:id', (req,res) => {
+	server.get('/events', (req,res) => app.render(req, res, '/events'));
+	server.get('/e/edit/:id', (req,res) => {
+		const actualPage = '/events/edit';
+		const queryParams = { id: req.params.id };
+		app.render(req,res,actualPage, queryParams)
+	})
+	server.get('/event_types/:id', (req,res) => {
 
-	// 	const params = {id: req.params.id};
-	// 	console.log(params)
-	// 	return app.render(req, res, '/event_types/single', params)
-	// });
+		const params = {id: req.params.id};
+		console.log(params)
+		return app.render(req, res, '/event_types/single', params)
+	});
 	
 	/* User and authentication */
+	
 	server.post('/api/auth/signup', catchErrors(auth.signup));
 	server.post('/api/auth/login', catchErrors(auth.login));
 	server.post('/api/auth/sessionLogin', catchErrors(auth.sessionLogin));
 	
-	server.get('*', (req, res) => handle(req, res));
 
 	server.listen(port, err => {
 		if (err) throw err;
-		console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
+		if (dev) {
+			console.log(`> Ready on http://localhost:${port}`); // eslint-disable-line no-console
+		} else {
+			console.log('> Ready on https://express-ukvgwjeuii.now.sh/events');
+		}
 	});
 })

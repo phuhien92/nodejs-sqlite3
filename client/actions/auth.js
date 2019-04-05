@@ -25,15 +25,14 @@ export const signupUser = (payload) => async dispatch => {
 }
 
 export const loginUser = ({email, password}) => async dispatch => {
-    //dispatch(showLoginLoading());
+    //dispatch(showPageLoading());
 
     // As httpOnly cookies are to be used. do not persist any state client side
 
     return auth.signInWithEmailAndPassword(email, password)
-    .then( user => {
-        Router.push('/');
-        dispatch(showPageLoading());
-    })
+    // .then( () => {
+    //     Router.push('/');
+    // })
     // .catch(error => {
     //     let errorCode = error.code;
     //     let errorMsg  = error.message;

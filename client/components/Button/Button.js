@@ -5,7 +5,6 @@ import SVG from 'react-inlinesvg';
 import { spin } from '../../helpers/animations';
 
 const StyledButton = styled.button`
-  -webkit-appearance: none;
   background-color: #00a2ff;
   color: #fff;
   font-weight: 100;
@@ -22,6 +21,49 @@ const StyledButton = styled.button`
   box-sizing: border-box;
   font-size: 16px;
   min-width: 80px;
+  border-radius: 4px;
+  
+  ${({ link }) =>
+  link &&
+  css`
+    color: #000;
+    background: none;
+    border: none;
+  `};
+
+  ${({ color }) => {
+    if (color === 'purple') {
+      return css`
+        background: linear-gradient(to right, #7e57c2, #6200ea);
+        box-shadow: 0 5px 6px rgba(81, 45, 168, 0.5);
+        :focus,
+        :hover {
+          box-shadow: 0 6px 15px rgba(81, 45, 168, 0.5);
+        }
+      `;
+    }
+    if (color === 'gray') {
+      return css`
+        color: black;
+        background: linear-gradient(to right, #e0e0e0, #bdbdbd);
+        box-shadow: 0 5px 6px rgba(160, 160, 160, 0.5);
+        border-color: #ccc;
+        :focus,
+        :hover {
+          box-shadow: 0 6px 15px rgba(160, 160, 160, 0.5);
+        }
+      `;
+    }
+    return null;
+  }};
+
+  ${({size}) => 
+  size === "large" &&
+  css`
+    padding: 14px 20px;
+    font-size: 18px;
+    width: 180px;
+  `}
 `;
 
 const Icon = styled(SVG)`
@@ -67,6 +109,7 @@ const Button = props => {
     <Icon
       type={props.icon}
       round={props.round}
+      color={props.color}
       src={`/images/${props.icon}.svg`}
     />
   ) : (
@@ -89,6 +132,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  color: 'blue',
   icon: '',
   type: '',
   round: false,
