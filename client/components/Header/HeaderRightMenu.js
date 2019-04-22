@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import HeaderMenuItem from './HeaderMenuItem';
 import { showPageLoading, logoutUser, unauthUser } from '../../actions';
 import Button from '../Button';
+import Link from '../Link';
+
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const List = styled.ul`
@@ -91,9 +93,9 @@ const HeaderMenu = (props) => {
 
   const event_types = props.auth.isAuthenticated && (
     <HeaderMenuItem>
-      <a href="/events" title="events" onClick={goTo}>
+      <Link path="/events">
         <ItemTitle>Event Types</ItemTitle>
-      </a>
+      </Link>
     </HeaderMenuItem>
   )
 

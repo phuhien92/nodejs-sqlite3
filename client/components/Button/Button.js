@@ -5,10 +5,8 @@ import SVG from 'react-inlinesvg';
 import { spin } from '../../helpers/animations';
 
 const StyledButton = styled.button`
-  background-color: #00a2ff;
-  color: #fff;
-  font-weight: 100;
-  border: 1px solid #00a2ff;
+  color: #000;
+  font-weight: 300;
   text-align: center;
   text-decoration: none;
   line-height: 20px;
@@ -22,16 +20,25 @@ const StyledButton = styled.button`
   font-size: 16px;
   min-width: 80px;
   border-radius: 4px;
-  
-  ${({ link }) =>
-  link &&
-  css`
-    color: #000;
-    background: none;
-    border: none;
-  `};
+  transition: all 0.2s ease-in-out;
+
+  :disabled {
+    opacity: 0.5;
+  }
 
   ${({ color }) => {
+    if (color === 'blue') {
+      return css`
+        background-color: #00a2ff;
+        border: 1px solid #00a2ff;
+        color: #fff;
+        :hover {
+          background-color: #005596;
+          border: 1px solid #005596;
+        }
+      `;
+    }
+
     if (color === 'purple') {
       return css`
         background: linear-gradient(to right, #7e57c2, #6200ea);
@@ -57,12 +64,27 @@ const StyledButton = styled.button`
     return null;
   }};
 
-  ${({size}) => 
-  size === "large" &&
+  ${({ link }) =>
+  link &&
   css`
+    color: #000;
+    background: none;
+    border: none;
+    :hover {
+      background: none;
+      border: none;
+    }
+  `};
+
+  ${({ size }) => size === 'large' && css`
     padding: 14px 20px;
     font-size: 18px;
-    width: 180px;
+    min-width: 180px;
+  `}
+
+  ${({ size }) => size === 'small' && css`
+    padding: 5px 10px;
+    font-size: 12px;
   `}
 `;
 
@@ -82,17 +104,13 @@ const Icon = styled(SVG)`
         animation: ${spin} 1s linear infinite;
       `};
 
-    ${({ round }) =>
-      round &&
-      css`
+    ${({ round }) => round && css`
         width: 15px;
         height: 15px;
         margin: 0;
       `};
 
-    ${({ color }) =>
-      color === 'gray' &&
-      css`
+    ${({ color }) => color === 'gray' && css`
         stroke: #444;
       `};
 

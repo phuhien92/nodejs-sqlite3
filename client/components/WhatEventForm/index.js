@@ -102,7 +102,7 @@ class EventForm extends Component {
             toggleAvaiSwitcher
         } = this.props;
 
-        console.info(availability)
+        //console.info(availability)
 
         return (
         <FormContainer>
@@ -318,7 +318,7 @@ const FormikForm = withFormik({
 
         setSubmitting(true);
 
-        console.log(availability)
+        //console.log(availability)
         //return;
 
         if (action === "update") {
@@ -348,7 +348,7 @@ const FormikForm = withFormik({
     }
 })(EventForm);
 
-const updateEvent = (id, values, availability, setSubmitting) => {
+const updateEvent = (id, values, availability, successCallback, errorCallback) => {
     /* update action */
 
     let avaiValues = {
@@ -360,7 +360,9 @@ const updateEvent = (id, values, availability, setSubmitting) => {
     let delayedPush = event => (
         new Promise( (resolve, reject) => {
             setTimeout(() => {
-                db.ref(`/events/${id}`).update(event)
+                db
+                .ref(`/events/${id}`)
+                .update(event)
                 .then(resolve, reject);
             },1000)
         })
@@ -370,9 +372,13 @@ const updateEvent = (id, values, availability, setSubmitting) => {
         ...values
     })
     .then(() => (
-        db.ref(`/availability/${avaiId}`).push({
-            ...avaiValues
-        }).catch((error) => {
+        db
+        .ref(`/availability/${avaiId}`)
+        .update({...avaiValues})
+        .then(() => {
+            Router.push('/events')
+        })
+        .catch((error) => {
             console.error(error)
         })
     ))
@@ -402,15 +408,9 @@ const createEvent = (uid, values, availability, successCallback, errorCallback) 
         updateAt: (new Date()).getTime()
     })
     .then(() => (
-    
         eventsRef.orderByKey().on('child_added', snap => {
-
-            
-
             let key = snap.key;
             let refAvaiId = avaiRef.orderByChild('id').equalTo(key);
-
-            console.log(key)
             
             refAvaiId.once('value', snapshot => {
                 if (!snapshot.hasChildren()) {

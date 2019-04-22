@@ -2,13 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { auth } from './../../firebase';
 import styled from 'styled-components';
-import PageLoading from '../PageLoading';
-import { hidePageLoading, showPageLoading } from '../../actions';
-import * as types from './../../actions/actionTypes';
-import classnames from 'classnames';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import classnames from 'classnames';
 import {
     faTachometerAlt, 
     faCalendar,
@@ -20,9 +16,18 @@ import {
     faUser,
     faUsers
 } from '@fortawesome/free-solid-svg-icons';
+import { auth } from '../../firebase';
+import PageLoading from '../PageLoading';
+import { 
+    hidePageLoading, 
+    showPageLoading,
+    hideModal,
+    showModal
+} from '../../actions';
+import * as types from '../../actions/actionTypes';
 import Sidebar from '../Sidebar';
-import NavTop from '../Navigation/NavTop';
 import Header from '../Header';
+import ModalContainer from '../Modals';
 
 library.add(
     faTachometerAlt,
@@ -33,7 +38,7 @@ library.add(
     faPen,
     faTrash,
     faUser,
-    faUsers
+    faUsers,
 );
 
 const ContentWrapper = styled.div`
@@ -71,7 +76,7 @@ const ContentInnerWrapper = styled.div`
 `;
 
 class BodyWrapper extends React.Component {
-    componentDidMount () {
+    componentDidMount() {
         let {
             hidePageLoading
         } = this.props;
@@ -95,7 +100,9 @@ class BodyWrapper extends React.Component {
             children, 
             isAuthenticated, 
             template,
-            pageLoading
+            pageLoading,
+            modalType,
+            modalBackdrop
         } = this.props;
 
         const content = pageLoading ? <PageLoading/> : children;
@@ -103,6 +110,8 @@ class BodyWrapper extends React.Component {
         const classes = classnames({
             'auth-view': isAuthenticated
         });
+
+        //console.log(modalType)
 
         return (
             <ContentWrapper className={classes}>
@@ -113,6 +122,7 @@ class BodyWrapper extends React.Component {
                         {content}
                     </ContentInnerWrapper>
                 </MainContentWrapper>
+                <ModalContainer modalType={modalType} modalBackdrop={modalBackdrop}/>
             </ContentWrapper>
         )
     }
@@ -126,23 +136,34 @@ BodyWrapper.propTypes = {
 }
 
 BodyWrapper.defaultProps = {
-    norenew: false 
+    norenew: false,
+    modalType: null
 }
 
 const mapStateToProps = ({
     loading: { page: pageLoading } , 
-    auth: { isAuthenticated }
-}) => ({
-    pageLoading,
-    isAuthenticated
-});
+    auth: { isAuthenticated },
+    modal: { modalType, modalProps, modalBackdrop }
+}) => {
+    return ({
+        pageLoading,
+        isAuthenticated,
+        modalType,
+        modalProps,
+        modalBackdrop
+    })
+};
 
 
 const mapDispatchToProps = dispatch => {
     return {
         authUser: (payload) => dispatch({type: types.AUTH_USER, payload: payload}),
         hidePageLoading: () => dispatch(hidePageLoading()),
-        showPageLoading: () => dispatch(showPageLoading())
+        showPageLoading: () => dispatch(showPageLoading()),
+        hideModal: () => dispatch(hideModal()),
+        showModal: (modalProps, modalType) => {
+            dispatch(showModal({modalProps, modalType}))
+        }
     }
 }
 

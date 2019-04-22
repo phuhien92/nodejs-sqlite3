@@ -15,6 +15,11 @@ import {
     publishEvent
 } from './event';
 
+import {
+    hideModal,
+    showModal
+} from './modal';
+
 const readEntity = (entityName, id) => ({
     type: `REQUEST_READ_${entityName.toUpperCase()}`,
     urlParams: { entityName, id },
@@ -26,7 +31,8 @@ const readEntity = (entityName, id) => ({
 
 export {
     readEntity,
-
+    hideModal,
+    showModal,
     showPageLoading,
     hidePageLoading,
     signupUser,

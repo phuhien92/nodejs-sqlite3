@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Switch = styled.label`
     position: relative;
@@ -18,9 +18,7 @@ const Slider = styled.div`
     transition: all .2s ease-in-out;
     display: flex;
 
-    ${({ size }) =>
-    size === "large" &&
-    css`
+    ${({ size }) => size === 'large' && css`
         justify-content: space-between;
         width: 90px;
         height: 28px;
@@ -43,9 +41,7 @@ const Slider = styled.div`
     `};
 
     &.checked {
-        ${({ size }) =>
-        size === "large" &&
-        css`
+        ${({ size }) => size === 'large' && css`
             color: #fff;
             background: #407f33;
             > span {
@@ -59,25 +55,24 @@ const Slider = styled.div`
     }
 `;
 
-const EventPublishSwitch = ({size, setFieldValue, published}) => {
+const EventPublishSwitch = ({ size, setFieldValue, published }) => {
+  let currentState = published;
 
-    let currentState = published;
+  const setValue = () => {
+    currentState = !currentState;
+    // return;
+    setFieldValue('published', currentState);
+  };
 
-    const setValue = () => {
-        currentState = !currentState;
-        //return; 
-        setFieldValue("published", currentState);
-    }
+  return (
+      <Switch>
+        <Slider size={size} onClick={setValue} className={currentState ? 'checked' : ''}>
+            <span>{currentState && 'PUBLIC'}</span>
+            <span>{!currentState && 'PRIVATE'}</span>
+            <small />
+          </Slider>
+      </Switch>
+  );
+};
 
-    return (
-        <Switch>
-            <Slider size={size} onClick={setValue} className={currentState ? "checked":""}>
-                <span>{currentState && "PUBLIC"}</span>
-                <span>{!currentState && "PRIVATE"}</span>
-                <small></small>
-            </Slider>
-        </Switch>
-    )
-}
-
-export default EventPublishSwitch
+export default EventPublishSwitch;

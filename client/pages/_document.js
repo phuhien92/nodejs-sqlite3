@@ -15,7 +15,7 @@ class AppDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
     const page = renderPage({
-      enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+      enhanceApp: App => props => sheet.collectStyles( <App {...props} /> )
     });
     const styleTags = sheet.getStyleElement();
     return { ...page, styleTags };

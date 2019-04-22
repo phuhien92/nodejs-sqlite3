@@ -1,7 +1,11 @@
 import React from 'react';
 import AvailabilityItem from './AvailabilityItem';
 import styled from 'styled-components';
-import AvaiModal from './AvaiModal';
+import { connect } from 'react-redux';
+import {
+    hideModal,
+    showModal
+} from '../../actions';
 
 const List = styled.ul`
     padding: 0;
@@ -18,17 +22,20 @@ class AvaiList extends React.Component {
         showModal: false
     }
 
-    openModal = () => {
-        this.props.setSubmitting(false);
-        this.setState({ showModal: true }, () => {
-            console.log(this.state.showModal)
-        })
-        return false;
+    openModal = (e,index) => {
+        e.preventDefault();        
+        //console.log(this.props.showModal)
+        this.props.showModal(
+            this.props.availability.slots[index],
+            'availability'
+        );
+        
     }
 
     closeModal = () => {
         this.props.setSubmitting(false);
-        this.setState({showModal: false})
+        //this.setState({showModal: false})
+        this.props.hideModal()
         return false;
     }
 
@@ -37,16 +44,16 @@ class AvaiList extends React.Component {
             availability,
             toggleAvaiSwitcher
         } = this.props,
-        modal = this.state.showModal ? (
-            <AvaiModal closeModal={this.closeModal}/>
-        ) : null;
+        {
+            showModal
+        } = this.state;
         
         if (availability && availability.slots) {
             view = availability.slots.map((slot, index) => (
                 <AvailabilityItem 
                     key={index}
                     slot={slot}
-                    on={slot.on}
+                    active={slot.on}
                     index={index}
                     openModal={this.openModal}
                     toggleAvaiSwitcher={toggleAvaiSwitcher}
@@ -55,16 +62,22 @@ class AvaiList extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 <List>
                     {view}
-                </List>
-                
-                {modal}
-                
-            </div>
+                </List>             
+            </React.Fragment>
         )
     }
 }
 
-export default AvaiList;
+const mapDispatchToProps = dispatch => {
+    return {
+        hideModal: () => dispatch(hideModal()),
+        showModal: (modalProps, modalType) => {
+            dispatch(showModal({modalProps, modalType}))
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(AvaiList);

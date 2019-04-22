@@ -1,12 +1,12 @@
-import * as types from './../actions/actionTypes';
+import * as types from '../actions/actionTypes';
 
 const initialState = {
-    api: false,
-    domain: false,
-    login: false,
-    signup: false,
-    page: false
-}
+ api: false,
+ domain: false,
+ login: false,
+  signup: false,
+ page: false,
+};
 
 const loading = (state = initialState, action) => {
     switch(action.type) {

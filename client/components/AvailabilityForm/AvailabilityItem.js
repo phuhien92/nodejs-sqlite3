@@ -1,26 +1,21 @@
 import React from 'react';
-import Button from '../Button';
 import styled from 'styled-components';
 import classnames from 'classnames';
+import Button from '../Button';
 
 const AvaiItem = styled.div`
     position: relative;
     margin-bottom: 15px;
     border: 1px solid #d1d1d1!important;
     padding: 15px;
-    width: 290px;
+    width: 100%;
     min-height: 160px;
     float: left;
     border-radius: 6px;
-    width: 49%;
     background: #f2f2f2;
 
     &.active {
         background: #fff;
-    }
-
-    &:nth-child(odd) {
-        margin: 0 2% 2% 0;
     }
 `;
 
@@ -30,6 +25,7 @@ const Title = styled.p`
     font-weight: 400;
     line-height: 1.4;
     margin-top: 0;
+    font-weight: bold;
 `;
 
 const Text = styled.div`
@@ -37,7 +33,7 @@ const Text = styled.div`
     font-size: 12px;
 `;
 
-const AvaiSwitcher = styled.div`
+const StyledSwitcher = styled.div`
     position: absolute;
     bottom: 15px;
     color: #fff;
@@ -83,45 +79,76 @@ const ButtonWrapper = styled.div`
     }
 `;
 
-const getWeekday = (index) => {
-    let d = [
-        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-    ]
+const dateOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-    return d[index];
-}
+const getWeekday = index => (dateOfWeek[index]);
 
 const getTimeRangeStr = (slotType, timeRange) => {
-    let txt = timeRange.map( time => {
-        let timeString = slotType === "recur" ? [time.start,time.end].join(' - '):time.start;
-        return timeString;
-    });
+  const txt = timeRange.map((time) => {
+    const timeString = slotType === 'recur' ? [time.start, time.end].join(' - ') : time.start;
+    return timeString;
+  });
 
-    return txt.join(' , ');
-}
+  return txt.join(' , ');
+};
 
-const AvailabilityItem = ({slot, on, index, openModal, toggleAvaiSwitcher}) => {
-    let weekdayName = getWeekday(index),
-    slotType  = slot.type,
-    timeRange = slot.timeRange.filter(time => time.type === slotType),
-    timeRangeStr = getTimeRangeStr(slotType, timeRange),
-    classes   = classnames({
-        "active": on
-    });
+class AvailabilityItem extends React.Component {
 
-    return (
+    state = {
+        active: false,
+        index: 0,
+        slot: null,
+        open: true
+    }
+
+    componentDidMount() {
+
+        let {
+            slot, 
+            active, 
+            index
+        } = this.props;
+
+        this.setState({
+            slot, active, index
+        })
+    }
+
+    toggleAvaiSwitcher = () => {
+        let {active} = this.state;
+        
+        this.setState({
+            active: !active
+        }, () => {
+
+        })
+    }
+
+    render () {
+        let {slot, active} = this.state;
+        let {openModal, index} = this.props;
+
+        const weekdayName = getWeekday(index);
+        const slotType  = slot && slot.type ? slot.type : '';
+        const timeRange = slot && slot.timeRange ? slot.timeRange.filter(time => time.type === slotType) : [];
+        const timeRangeStr = getTimeRangeStr(slotType, timeRange);
+        const classes = classnames({'active' : active });
+
+        return (
         <AvaiItem className={classes}>
             <Title>{weekdayName}</Title>
             <Text>{timeRangeStr}</Text>
-            <AvaiSwitcher className={classes} onClick={toggleAvaiSwitcher} data-index={index}>
+            <StyledSwitcher className={classes} onClick={this.toggleAvaiSwitcher} data-index={index}>
                 <span className="switcher"></span>
-                <span>{on ? "ON":"OFF"}</span>
-            </AvaiSwitcher>
-            {on && <ButtonWrapper>
-                <Button link onClick={openModal}>Edit</Button>
+                <span>{active ? "ON":"OFF"}</span>
+            </StyledSwitcher>
+            {active && 
+            <ButtonWrapper>
+                <Button link onClick={e => openModal(e, index)}>Edit</Button>
             </ButtonWrapper>}
         </AvaiItem>
-    )
+        )
+    }
 }
 
 export default AvailabilityItem;

@@ -11,21 +11,13 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/events": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/events/edit": [
       "static/runtime/webpack.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
       "static/runtime/main.js"
     ],
-    "/dashboard": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/account": [
+    "/events": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

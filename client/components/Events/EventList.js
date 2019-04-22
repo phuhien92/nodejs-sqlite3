@@ -5,9 +5,17 @@ import Event from './Event';
 import styled from 'styled-components';
 import { hidePageLoading } from '../../actions';
 
-const EventListWrapper = styled.section`
+const EventListWrapper = styled.table`
+    margin: 0 50px 20px 50px;
+    box-shadow: 2px 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    background: #fff;
+    max-width: 1200px;
     width: 100%;
-    display: flex;
+`;
+
+const StyledTh = styled.th`
+    border-bottom: 1px solid #ddd;
+    padding: 30px 0 30px 0;
 `;
 
 class EventList extends Component {
@@ -42,11 +50,21 @@ class EventList extends Component {
 
         return (
             <EventListWrapper>
+                <thead>
+                    <tr>
+                        <StyledTh>Event Name</StyledTh>
+                        <StyledTh>Allow bookings</StyledTh>
+                        <StyledTh>Duration</StyledTh>
+                        <StyledTh>Action</StyledTh>
+                    </tr>
+                </thead>
+                <tbody>
                 {   this.state.events.length > 0 &&
                     this.state.events.map( (event,index) => (
                     <Event {...event} key={index} toggleDropdown={this.toggleDropdown} toggleEvent={this.state.toggleEvent}/>
                     ))
                 }
+                </tbody>
             </EventListWrapper>
         )
     }

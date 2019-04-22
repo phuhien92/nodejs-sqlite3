@@ -1,36 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, {Component} from 'react'
 import styled, {css} from 'styled-components';
 import Router from 'next/router';
 import PublicSwitch from './PublishSwitch';
 import EventDropdown from './EventDropdown';
-import Link from 'next/link'
-import Button from './../Button';
+import Link from '../Link';
+import Button from '../Button';
 
-const Block = styled.div`
-    vertical-align: middle;
-    padding: 11px 11px 7px;
-    font-size: 14px;
-    line-height: 14px;
-    background-color: #fff;
-    transition: border-color .2s ease;
-    position: relative;
-    box-sizing: border-box;
-    display: inline-block;
-    border: 1px solid #dadada;
-    border-radius: 3px;
-    max-width: 32.33%;
-    width: 100%;
-    margin: 5px 0.5%;
-    cursor: pointer;
-
-    :hover {
-        border-color: #00a2ff;
-    }
+const StyledRow = styled.tr`
+    
 `;
 
-const BlockInner = styled.div`
-    padding-left: 23px;
-    position: relative;
+const StyledCol = styled.td`
+    text-align: center;
 `;
 
 const EventName = styled.span`
@@ -59,9 +40,8 @@ const Marker = styled.div`
     `}
 `;
 
-class Event extends PureComponent {
-    switchRef   = React.createRef();
-    dropdownRef = React.createRef();
+class Event extends Component {
+
     componentDidMount () {
         document.addEventListener('click', this.handleClickOutside);
     }
@@ -89,34 +69,39 @@ class Event extends PureComponent {
 
     toggleDropdown = () => {
         this.props.toggleDropdown(this.props.id)
-    }
+    };
 
     render () {
         let {
             event_color,
             event_name,
             id,
-            published
+            published,
+            event_duration_hours,
+            event_duration_minutes
         } = this.props,
         toggled = this.props.toggleEvent === id;
-        
-        return (
-            <Block>
-                <BlockInner>
-                    { published ? <Marker color={event_color.value}/> : <Marker/>}
-                    <span ref={node => this.dropdownRef = node}>
-                        <EventDropdown id={id} toggleDropdown={this.toggleDropdown} toggled={toggled}/>
-                    </span>
-                    <span ref={node => this.switchRef = node}>
-                        <PublicSwitch id={id} published={published}/>
-                    </span>
-                    <EventName>{event_name}</EventName>
 
-                    <Button>
-                        <Link as={`/e/${id}/edit`} href={`/e/edit?id=${id}`}>View Detail</Link>    
-                    </Button>    
-                </BlockInner>
-            </Block>
+        return (
+            <StyledRow>
+                <StyledCol>
+                    { published ? <Marker color={event_color.value}/> : <Marker/>}
+                    <EventName>{event_name}</EventName>
+                </StyledCol>
+                <StyledCol></StyledCol>
+                <StyledCol>
+                    {event_duration_hours > 0 ? `${event_duration_hours} hr `:null}
+                    {event_duration_minutes > 0 ? `${event_duration_minutes} min`:null}
+                </StyledCol>
+                <StyledCol>
+                    <Link path={`/events/${id}/edit`}>
+                        <Button 
+                            link
+                            size={'small'}
+                        >Edit Event</Button>
+                    </Link>    
+                </StyledCol>
+            </StyledRow>
         )
     }
 }
